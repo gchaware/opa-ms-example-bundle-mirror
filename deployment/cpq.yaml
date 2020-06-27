@@ -17,10 +17,24 @@ spec:
     spec:
       containers:
       - name: offer
-        image: gchaware/opa-example-offer:latest
-        imagePullPolicy: IfNotPresent
+        image: gchaware/opa-example-offer:v2
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
+      - name: opa
+        image: openpolicyagent/opa:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8181
+        args:
+          - "run" 
+          - "--server"
+          - "--set=decision_logs.console=true"
+          - "--set=bundles.authz.polling.min_delay_seconds=5"
+          - "--set=bundles.authz.polling.max_delay_seconds=10"
+          - "--set=services.authz.url=http://bundle-service:9000"
+          - "--set=bundles.authz.resource=bundles/authz.tar.gz"
+
 ---
 apiVersion: v1
 kind: Service
@@ -201,7 +215,6 @@ data:
             }
 
             location /offer {
-                auth_request /auth;
                 proxy_pass http://offer:8080;
             }
 
