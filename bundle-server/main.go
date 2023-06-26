@@ -27,7 +27,7 @@ func main() {
 
 func printPrimeNumbers(num1, num2 int){
    if num1<2 || num2<2{
-      fmt.Println("Numbers must be greater than 2.")
+      fmt.Println("Numbers must be greater than 2 for this to work.")
       return
    }
    for num1 <= num2 {
@@ -39,7 +39,7 @@ func printPrimeNumbers(num1, num2 int){
          }
       }
       if isPrime {
-         fmt.Printf("%d ", num1)
+         fmt.Printf("Found Prime number: %d ", num1)
       }
       num1++
    }
